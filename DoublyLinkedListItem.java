@@ -1,9 +1,9 @@
 public class DoublyLinkedListItem {
-    public Object Value;
+    public int Value;
     private DoublyLinkedListItem next;
     private DoublyLinkedListItem  previous;
 
-    public DoublyLinkedListItem(Object Value){
+    public DoublyLinkedListItem(int Value){
         this.Value = Value;
         this.next = null;
         this.previous = null;
