@@ -2,6 +2,14 @@ public class DoublyLinkedList {
     private DoublyLinkedListItem first;
     private DoublyLinkedListItem last;
 
+    public DoublyLinkedListItem getFirst() {
+        return first;
+    }
+
+    public DoublyLinkedListItem getLast() {
+        return last;
+    }
+
     public DoublyLinkedList(){
         first = null;
         last = null;
