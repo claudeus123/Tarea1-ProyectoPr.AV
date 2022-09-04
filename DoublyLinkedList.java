@@ -16,7 +16,7 @@ public class DoublyLinkedList {
     }
      
     public void AddFirst(DoublyLinkedListItem item){
-        DoublyLinkedListItem newItem  = new DoublyLinkedListItem(item);
+        DoublyLinkedListItem newItem  = item;
         if (first == null){
             first = newItem;
             last = newItem;
@@ -28,21 +28,22 @@ public class DoublyLinkedList {
     }
 
     public void AddLast(DoublyLinkedListItem item){
-        DoublyLinkedListItem newItem  = new DoublyLinkedListItem(item);
+        DoublyLinkedListItem newItem  = item;
         if (first == null){
             first = newItem;
             last =newItem;
         } else{
             last.setNext(newItem);
-            newItem.setPrevious(newItem);
+            newItem.setPrevious(last);
             last = newItem; 
         }
     }
 
     public void AddAfter(DoublyLinkedListItem afterItem, DoublyLinkedListItem newItem){
         if(Contains(afterItem)){
-            DoublyLinkedListItem newItemNode  = new DoublyLinkedListItem(newItem);
+            DoublyLinkedListItem newItemNode  = newItem;
             DoublyLinkedListItem current = first;
+			if (afterItem.Value == current.Value) AddFirst(newItem);
             while (current.GetNext() != null){
                 if (afterItem.Value == current.Value) {
                     AddAfterChange(current,newItemNode);
@@ -50,7 +51,7 @@ public class DoublyLinkedList {
                 current = current.GetNext();
             }
             if (afterItem.Value == current.Value){
-                AddAfterChange(current,newItemNode);
+                AddLast(newItem);
             }
         }
     }
@@ -66,13 +67,14 @@ public class DoublyLinkedList {
 
     public void AddBefore(DoublyLinkedListItem beforeItem, DoublyLinkedListItem newItem){
         if(Contains(beforeItem)){
-            DoublyLinkedListItem newItemNode  = new DoublyLinkedListItem(newItem);
+            DoublyLinkedListItem newItemNode  = newItem;
             DoublyLinkedListItem current = first;
+			if (beforeItem.Value == current.Value) AddFirst(newItem);
             while (current.GetNext() != null){
                 if (beforeItem.Value == current.Value)AddBeforeChange(beforeItem,newItemNode);
                 current = current.GetNext();
             }
-            if (beforeItem.Value == current.Value) AddBeforeChange(beforeItem,newItemNode);
+            if (beforeItem.Value == current.Value) AddLast(newItem);
         
         }
     }
@@ -97,34 +99,42 @@ public class DoublyLinkedList {
             if (item.Value == current.Value) return true;
             current = current.GetNext();
         }
+		if (item.Value == current.Value) return true;
         return false;
     }
 
     public void Remove(DoublyLinkedListItem item){
         if (Contains(item)){
-            DoublyLinkedListItem current  = first;
+            DoublyLinkedListItem current = first;
+			if (item.Value == current.Value)RemoveFirst();
+			current = current.GetNext();
             while (current.GetNext() != null){
-                if (item.Value == current.Value);{
+                if (item.Value == current.Value){
                     current.GetPrev().setNext(current.GetNext());
                     current.GetNext().setPrevious(current.GetPrev());
                     
                     current.setNext(null);
                     current.setPrevious(null);
+					return;
                 }
                 current = current.GetNext();
             }
+			if (item.Value == current.Value) RemoveLast();
         }
         
     }
+	
 
     public void RemoveFirst(){
         first.GetNext().setPrevious(null);
         first = first.GetNext();
+		return;
     }
 
     public void RemoveLast(){
-        last.GetPrev().setNext(null);
-        last = last.GetNext();
+        last = last.GetPrev();
+        last.setNext(null);
+		return;
     }
 
 
